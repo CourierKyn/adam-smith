@@ -27,13 +27,80 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
+import Payment from "./Payment";
 
 function App() {
     const [value, setValue] = React.useState(0);
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [paying, setPaying] = React.useState(1);
+    const [response, setResponse] = React.useState(
+        {
+            "msg": "",
+            "code": "",
+            "limits": {
+                "approvedLimit": "",
+                "cashAdvanceLimit": "",
+                "usedLimit": "",
+                "availableLimit": ""
+            }
+        }
+    );
+    const [response2, setResponse2] = React.useState(
+        {
+            "msg": "",
+            "code": "",
+            "paymentDetails": {
+                "repaymentduedate": "",
+                "repaymentamount": "",
+                "minimumpayment": ""
+            }
+        }
+    )
+    const [current, setCurrent] = React.useState(0);
+    const [current2, setCurrent2] = React.useState(0);
+    const [CreditCardNumbers, setCreditCardNumbers] = React.useState([5000010000014074, 5000010000014082, 5000010000014090]);
+
+    // const
+
+    function strToJson(str) {
+        return JSON.parse(str);
+    }
+
+    const submit = () => {
+        fetch('https://simnectzplatform.com:8080/simnectz_Bank-Credit_card_service-credit_card/creditcard/creditLimitDetails', {
+            method: 'POST',
+            headers: {
+                'accept': '*/*',
+                'token': 'eyJhbGciOiJIUzUxMiIsInppcCI6IkRFRiJ9.eNo8y00OwiAQhuG7zNoFkBLUpbqwadI7ADNWEn4aWozGeHchNs7yme99A9KDfJop9xc4gkTaG6XtTQrRCWEPhMKojhnDLVdKwg5sKnHNr3NCqsF1aORJZxenzRhjvKrJOtr73xr5NLk46tBkdqGlZVlToDyWYCj_hmy7Viw64ik9e6wv-HwBAAD__w.alc0ibAbJotnPxSQL2wtt9Qo8h0YYzl4WkxOK65PnGy1fK4SDmNRRVEohqOya_K7qOXJOt5Cjdm10cejK3PViA',
+                'Content-Type': 'application/json',
+                'Authorization': '5cfe45fe562d5e6ed88a8547d0134c31d72d468fa7fbe2f16b93188e',
+            },
+            body: JSON.stringify({
+                "creditcardnumber": CreditCardNumbers[value]
+            })
+        }).then(res => res.text()).then(res => setResponse(strToJson(res)));
+        setCurrent(current + 1);
+    };
+
+    const submit2 = () => {
+        fetch('https://simnectzplatform.com:8080/simnectz_Bank-Credit_card_service-credit_card_payment/creditcard/outstandingPayment', {
+            method: 'POST',
+            headers: {
+                'accept': '*/*',
+                'token': 'eyJhbGciOiJIUzUxMiIsInppcCI6IkRFRiJ9.eNo8y00OwiAQhuG7zNoFkBLUpbqwadI7ADNWEn4aWozGeHchNs7yme99A9KDfJop9xc4gkTaG6XtTQrRCWEPhMKojhnDLVdKwg5sKnHNr3NCqsF1aORJZxenzRhjvKrJOtr73xr5NLk46tBkdqGlZVlToDyWYCj_hmy7Viw64ik9e6wv-HwBAAD__w.alc0ibAbJotnPxSQL2wtt9Qo8h0YYzl4WkxOK65PnGy1fK4SDmNRRVEohqOya_K7qOXJOt5Cjdm10cejK3PViA',
+                'Content-Type': 'application/json',
+                'Authorization': '5cfe45fe562d5e6ed88a854739aeadb2d5f24e25868eb72e2894f63a',
+            },
+            body: JSON.stringify({
+                "creditcardnumber": CreditCardNumbers[value]
+            })
+        }).then(res => res.text()).then(res => setResponse2(strToJson(res)));
+        setCurrent2(current2 + 1);
+    };
 
     function handleChange(event, newValue) {
         setValue(newValue);
+        submit();
     }
 
     function handleClick(event) {
@@ -44,40 +111,61 @@ function App() {
         setAnchorEl(null);
     }
 
+    function handlePaying() {
+        setPaying(1);
+    }
+
     return (
-        <Box>
+        <Box style={{background: '#F3F2F7'}}>
+            {current === 0 && (submit())}
+            {current2 === 0 && (submit2())}
             <AppBar position="static" style={{background: '#D4372C', color: 'white'}}>
                 <Toolbar>
                     <Typography variant="h6" color="inherit">
                         HSBC
                     </Typography>
                     <Grid container direction={'row-reverse'}>
-                    <Grid item>
-                        <IconButton
-                            aria-label="More"
-                            aria-controls="long-menu"
-                            aria-haspopup="true"
-                            onClick={handleClick}
-                            color="inherit"
-                        >
-                            <AddIcon />
-                        </IconButton>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onClick={handleClose}>New Card</MenuItem>
-                            <MenuItem onClick={handleClose}>Transfer</MenuItem>
-                            <MenuItem onClick={handleClose}>Rewords</MenuItem>
-                            <MenuItem onClick={handleClose}>Loss Reporting</MenuItem>
-                            <MenuItem onClick={handleClose}>Cancellation</MenuItem>
-                        </Menu></Grid></Grid>
+                        <Grid item>
+                            <IconButton
+                                aria-label="More"
+                                aria-controls="long-menu"
+                                aria-haspopup="true"
+                                onClick={handleClick}
+                                color="inherit"
+                            >
+                                <AddIcon/>
+                            </IconButton>
+                            <Menu
+                                id="simple-menu"
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}
+                            >
+                                <MenuItem onClick={handleClose}>New Card</MenuItem>
+                                <MenuItem onClick={handleClose}>Transfer</MenuItem>
+                                <MenuItem onClick={handleClose}>Rewords</MenuItem>
+                                <MenuItem onClick={handleClose}>Loss Reporting</MenuItem>
+                                <MenuItem onClick={handleClose}>Cancellation</MenuItem>
+                            </Menu></Grid></Grid>
                 </Toolbar>
             </AppBar>
-            <AppBar position="static" style={{background: 'white', color: '#D4372C'}}>
+            {paying === 1 ? <Payment CreditCardNumber={CreditCardNumbers[value]} response2={response2}/> :
+                <IndexPage response={response} response2={response2} handlePaying={handlePaying} />}
+        </Box>
+    );
+}
+
+function IndexPage(props) {
+    const [value, setValue] = React.useState(0);
+
+    function handleChange(event, newValue) {
+        setValue(newValue);
+    }
+
+    return (
+        <Box>
+            <AppBar position="static" style={{background: '#F3F2F7', color: '#D4372C'}}>
                 <Tabs
                     value={value}
                     onChange={handleChange}
@@ -101,10 +189,10 @@ function App() {
                                         Total Balance
                                     </Typography>
                                     <Typography variant="h5" component="h2" style={{fontWeight: 600}}>
-                                        $1,682.55
+                                        {props.response.limits.usedLimit}
                                     </Typography>
                                     <Typography variant={"body2"} color="textSecondary">
-                                        $8317.45 Available
+                                        {props.response.limits.availableLimit}
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
@@ -132,7 +220,7 @@ function App() {
                                     Payment Due in
                                 </Typography>
                                 <Typography variant="h5" component="h2" style={{fontWeight: 600}}>
-                                    6 days
+                                    {Math.round((Date.parse(props.response2.paymentDetails.repaymentduedate) - Date.now()) / 1000 / 60 / 60 / 24)} days
                                 </Typography>
                                 <Typography>&#160;</Typography>
                                 <Typography>&#160;</Typography>
@@ -141,7 +229,8 @@ function App() {
                             <CardActions>
                                 <Grid container direction={'row-reverse'}>
                                     <Grid item>
-                                        <Fab style={{background: '#D4372C', color: 'white'}}>Pay</Fab>
+                                        <Fab onClick={props.handlePaying}
+                                             style={{background: '#D4372C', color: 'white'}}>Pay</Fab>
                                     </Grid>
                                 </Grid>
                             </CardActions>
@@ -150,12 +239,20 @@ function App() {
                 </Grid>
                 <Typography>&#160;</Typography>
                 <Typography variant={'h5'} style={{fontWeight: 'bold'}}>Latest Transactions </Typography>
-                <Paper>
 
-                </Paper>
             </Container>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
         </Box>
-    );
+    )
 }
 
 export default App;
