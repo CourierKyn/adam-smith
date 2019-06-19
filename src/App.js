@@ -32,7 +32,7 @@ import Payment from "./Payment";
 function App() {
     const [value, setValue] = React.useState(0);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [paying, setPaying] = React.useState(1);
+    const [paying, setPaying] = React.useState(0);
     const [response, setResponse] = React.useState(
         {
             "msg": "",
@@ -99,8 +99,9 @@ function App() {
     };
 
     function handleChange(event, newValue) {
+        setCurrent(0);
+        setCurrent2(0);
         setValue(newValue);
-        submit();
     }
 
     function handleClick(event) {
@@ -109,6 +110,11 @@ function App() {
 
     function handleClose() {
         setAnchorEl(null);
+    }
+
+    function handleHoming() {
+        setAnchorEl(null);
+
     }
 
     function handlePaying() {
@@ -141,34 +147,32 @@ function App() {
                                 keepMounted
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
+                                button
                             >
-                                <MenuItem onClick={handleClose}>New Card</MenuItem>
-                                <MenuItem onClick={handleClose}>Transfer</MenuItem>
-                                <MenuItem onClick={handleClose}>Rewords</MenuItem>
-                                <MenuItem onClick={handleClose}>Loss Reporting</MenuItem>
-                                <MenuItem onClick={handleClose}>Cancellation</MenuItem>
+                                <MenuItem button onClick={handleHoming}>Home</MenuItem>
+                                <MenuItem button onClick={handleClose}>New Card</MenuItem>
+                                <MenuItem button onClick={handleClose}>Transfer</MenuItem>
+                                <MenuItem button onClick={handleClose}>Rewords</MenuItem>
+                                <MenuItem button onClick={handleClose}>Loss Reporting</MenuItem>
+                                <MenuItem button onClick={handleClose}>Cancellation</MenuItem>
                             </Menu></Grid></Grid>
                 </Toolbar>
             </AppBar>
             {paying === 1 ? <Payment CreditCardNumber={CreditCardNumbers[value]} response2={response2}/> :
-                <IndexPage response={response} response2={response2} handlePaying={handlePaying} />}
+                <IndexPage response={response} response2={response2} handlePaying={handlePaying}
+                           handleChange={handleChange} value={value} submit={submit} submit2={submit2}
+                />}
         </Box>
     );
 }
 
 function IndexPage(props) {
-    const [value, setValue] = React.useState(0);
-
-    function handleChange(event, newValue) {
-        setValue(newValue);
-    }
-
     return (
         <Box>
             <AppBar position="static" style={{background: '#F3F2F7', color: '#D4372C'}}>
                 <Tabs
-                    value={value}
-                    onChange={handleChange}
+                    value={props.value}
+                    onChange={props.handleChange}
                     variant="scrollable"
                 >
                     <Tab icon=<img src={'http://ww1.sinaimg.cn/large/006tNc79ly1g45aettq4kj30yl0lt12m.jpg'}
@@ -188,7 +192,7 @@ function IndexPage(props) {
                                     <Typography gutterBottom>
                                         Total Balance
                                     </Typography>
-                                    <Typography variant="h5" component="h2" style={{fontWeight: 600}}>
+                                    <Typography variant="h6" style={{fontWeight: 600}}>
                                         {props.response.limits.usedLimit}
                                     </Typography>
                                     <Typography variant={"body2"} color="textSecondary">
@@ -219,7 +223,7 @@ function IndexPage(props) {
                                 <Typography gutterBottom>
                                     Payment Due in
                                 </Typography>
-                                <Typography variant="h5" component="h2" style={{fontWeight: 600}}>
+                                <Typography variant="h5" style={{fontWeight: 600}}>
                                     {Math.round((Date.parse(props.response2.paymentDetails.repaymentduedate) - Date.now()) / 1000 / 60 / 60 / 24)} days
                                 </Typography>
                                 <Typography>&#160;</Typography>
