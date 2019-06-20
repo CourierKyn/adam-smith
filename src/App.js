@@ -28,9 +28,17 @@ import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Payment from "./Payment";
+import Checkout from './transfer';
+import Query from "./Query";
+import Shop from "./Shop";
+import Application from "./Application";
+import LossReport from './LossReport'
+import Cancel from "./Cancel";
+import TransactionDetails from "./TransactionDetails";
 
 function App() {
     const [value, setValue] = React.useState(0);
+    const [page, setPage] = React.useState(0);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [paying, setPaying] = React.useState(0);
     const [response, setResponse] = React.useState(
@@ -58,9 +66,9 @@ function App() {
     )
     const [current, setCurrent] = React.useState(0);
     const [current2, setCurrent2] = React.useState(0);
-    const [CreditCardNumbers, setCreditCardNumbers] = React.useState([5000010000014074, 5000010000014082, 5000010000014090]);
-
-    // const
+    const [current3, setCurrent3] = React.useState(0);
+    const [CreditCardNumbers, setCreditCardNumbers] = React.useState([5000010000014272,5000010000014082, 5000010000014090]);
+    const [change, setChange] = React.useState(0)
 
     function strToJson(str) {
         return JSON.parse(str);
@@ -101,6 +109,7 @@ function App() {
     function handleChange(event, newValue) {
         setCurrent(0);
         setCurrent2(0);
+        setCurrent3(0);
         setValue(newValue);
     }
 
@@ -113,18 +122,94 @@ function App() {
     }
 
     function handleHoming() {
+        setCurrent(0);
+        setCurrent2(0);
+        setCurrent3(0);
+        setPaying(0);
+        setPage(0);
         setAnchorEl(null);
 
+    }
+
+    function handleTransfer() {
+        setPaying(0);
+        setPage(2);
+        setAnchorEl(null);
+
+    }
+    function handleShop() {
+        setPaying(0);
+        setPage(3);
+        setAnchorEl(null);
+    }
+    function handleApplication() {
+        setPaying(0);
+        setPage(1);
+        setAnchorEl(null);
+    }
+    function handleLossReport() {
+        setPaying(0);
+        setPage(4);
+        setAnchorEl(null);
+    }
+    function handleCancel() {
+        setPaying(0);
+        setPage(5);
+        setAnchorEl(null);
     }
 
     function handlePaying() {
         setPaying(1);
     }
+    function handlePayingBack() {
+        setCurrent(0);
+        setCurrent2(0);
+        setCurrent3(0);
+        setPaying(0);
+    }
+
+    function getPage(p) {
+        switch (p) {
+            case 0:
+                return <IndexPage response={response} response2={response2} handlePaying={handlePaying}
+                                  handleChange={handleChange} value={value} submit={submit} submit2={submit2}
+                                  CreditCardNumber={CreditCardNumbers[value]} current3={current3}
+                                  setCurrent3={setCurrent3}
+                />;
+            case 1:
+                return <Application />;
+            case 2:
+                return <Checkout CreditCardNumber={CreditCardNumbers[value]} />;
+            case 3:
+                return <Shop CreditCardNumber={CreditCardNumbers[value]} />;
+            case 4:
+                return <LossReport CreditCardNumber={CreditCardNumbers[value]} />;
+            case 5:
+                return <Cancel CreditCardNumber={CreditCardNumbers[value]} />;
+            default:
+                return <IndexPage response={response} response2={response2} handlePaying={handlePaying}
+                                  handleChange={handleChange} value={value} submit={submit} submit2={submit2}
+                                  CreditCardNumber={CreditCardNumbers[value]} current3={current3}
+                                  setCurrent3={setCurrent3}
+                />;
+        }
+    }
 
     return (
-        <Box style={{background: '#F3F2F7'}}>
-            {current === 0 && (submit())}
-            {current2 === 0 && (submit2())}
+        <
+            Box
+            style={
+                {
+                    background: '#F3F2F7'
+                }
+            }
+        >
+            {
+                current === 0 && (submit())
+            }
+            {
+                current2 === 0 && (submit2())
+            }
             <AppBar position="static" style={{background: '#D4372C', color: 'white'}}>
                 <Toolbar>
                     <Typography variant="h6" color="inherit">
@@ -150,18 +235,17 @@ function App() {
                                 button
                             >
                                 <MenuItem button onClick={handleHoming}>Home</MenuItem>
-                                <MenuItem button onClick={handleClose}>New Card</MenuItem>
-                                <MenuItem button onClick={handleClose}>Transfer</MenuItem>
-                                <MenuItem button onClick={handleClose}>Rewords</MenuItem>
-                                <MenuItem button onClick={handleClose}>Loss Reporting</MenuItem>
-                                <MenuItem button onClick={handleClose}>Cancellation</MenuItem>
+                                <MenuItem button onClick={handleApplication}>New Card</MenuItem>
+                                <MenuItem button onClick={handleTransfer}>Transfer</MenuItem>
+                                <MenuItem button onClick={handleShop}>Rewords Shop</MenuItem>
+                                <MenuItem button onClick={handleLossReport}>Loss Report</MenuItem>
+                                <MenuItem button onClick={handleCancel}>Cancellation</MenuItem>
                             </Menu></Grid></Grid>
                 </Toolbar>
             </AppBar>
-            {paying === 1 ? <Payment CreditCardNumber={CreditCardNumbers[value]} response2={response2}/> :
-                <IndexPage response={response} response2={response2} handlePaying={handlePaying}
-                           handleChange={handleChange} value={value} submit={submit} submit2={submit2}
-                />}
+            {
+                paying === 1 ? <Payment CreditCardNumber={CreditCardNumbers[value]} response2={response2} response={response} handlePayingBack={handlePayingBack}/> : getPage(page)
+            }
         </Box>
     );
 }
@@ -175,11 +259,11 @@ function IndexPage(props) {
                     onChange={props.handleChange}
                     variant="scrollable"
                 >
-                    <Tab icon=<img src={'http://ww1.sinaimg.cn/large/006tNc79ly1g45aettq4kj30yl0lt12m.jpg'}
+                    <Tab icon=<img src={require('./006tNc79ly1g45aettq4kj30yl0lt12m.jpg')}
                          width={250}/> />
-                    <Tab icon=<img src={'http://ww1.sinaimg.cn/large/006tNc79ly1g45aettq4kj30yl0lt12m.jpg'}
+                    <Tab icon=<img src={require('./006tNc79ly1g45aettq4kj30yl0lt12m.jpg')}
                          width={250}/> />
-                    <Tab icon=<img src={'http://ww1.sinaimg.cn/large/006tNc79ly1g45aettq4kj30yl0lt12m.jpg'}
+                    <Tab icon=<img src={require('./006tNc79ly1g45aettq4kj30yl0lt12m.jpg')}
                          width={250}/> />
                 </Tabs>
             </AppBar>
@@ -211,7 +295,7 @@ function IndexPage(props) {
                                     <CardMedia
                                         component="img"
                                         height="40"
-                                        image="http://ww4.sinaimg.cn/large/006tNc79ly1g445rsrpcoj30aw03kq2u.jpg"
+                                        image={require('./006tNc79ly1g445rsrpcoj30aw03kq2u.jpg')}
                                     />
                                 </CardContent>
                             </CardActionArea>
@@ -224,7 +308,7 @@ function IndexPage(props) {
                                     Payment Due in
                                 </Typography>
                                 <Typography variant="h5" style={{fontWeight: 600}}>
-                                    {Math.round((Date.parse(props.response2.paymentDetails.repaymentduedate) - Date.now()) / 1000 / 60 / 60 / 24)} days
+                                    36 days
                                 </Typography>
                                 <Typography>&#160;</Typography>
                                 <Typography>&#160;</Typography>
@@ -243,18 +327,11 @@ function IndexPage(props) {
                 </Grid>
                 <Typography>&#160;</Typography>
                 <Typography variant={'h5'} style={{fontWeight: 'bold'}}>Latest Transactions </Typography>
-
+                <Query CreditCardNumber={props.CreditCardNumber} current3={props.current3}
+                       setCurrent3={props.setCurrent3}/>
             </Container>
             <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
-            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
-            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
-            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
-            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
-            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
-            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
-            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
-            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
-            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography>
         </Box>
     )
 }
