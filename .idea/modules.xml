@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/helloreact.iml" filepath="$PROJECT_DIR$/.idea/helloreact.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/adam-smith.iml" filepath="$PROJECT_DIR$/.idea/adam-smith.iml" />
     </modules>
   </component>
 </project>
