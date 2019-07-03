@@ -35,6 +35,7 @@ import Application from "./Application";
 import LossReport from './LossReport'
 import Cancel from "./Cancel";
 import TransactionDetails from "./TransactionDetails";
+import ChatbotPage from "./ChatbotPage"
 
 function App() {
     const [value, setValue] = React.useState(0);
@@ -157,6 +158,11 @@ function App() {
         setPage(5);
         setAnchorEl(null);
     }
+    function handleChatbot(){
+        setPaying(0);
+        setPage(6);
+        setAnchorEl(null);
+    }
 
     function handlePaying() {
         setPaying(1);
@@ -186,6 +192,8 @@ function App() {
                 return <LossReport CreditCardNumber={CreditCardNumbers[value]} />;
             case 5:
                 return <Cancel CreditCardNumber={CreditCardNumbers[value]} />;
+            case 6:
+                return <ChatbotPage/>;
             default:
                 return <IndexPage response={response} response2={response2} handlePaying={handlePaying}
                                   handleChange={handleChange} value={value} submit={submit} submit2={submit2}
@@ -240,6 +248,7 @@ function App() {
                                 <MenuItem button onClick={handleShop}>Rewords Shop</MenuItem>
                                 <MenuItem button onClick={handleLossReport}>Loss Report</MenuItem>
                                 <MenuItem button onClick={handleCancel}>Cancellation</MenuItem>
+                                <MenuItem button onClick={handleChatbot}>Chatbot</MenuItem>
                             </Menu></Grid></Grid>
                 </Toolbar>
             </AppBar>
