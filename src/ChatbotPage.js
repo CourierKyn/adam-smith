@@ -19,8 +19,11 @@ class Response extends Component {
     componentWillMount() {
         const {steps} = this.props;
         const query = steps.query.value;
-        fetch('http://hsbc.natapp1.cc:5000/', {
+        fetch('http://hsbc.natapp1.cc/', {
             method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin': "*"
+            },
             body: JSON.stringify({
                 "query": query
             })
@@ -74,6 +77,7 @@ export default function ChatbotPage(props) {
                     {
                         id: 'response',
                         component: <Response/>,
+                        asMessage: true,
                         trigger: 'query',
                     },
                 ]}
