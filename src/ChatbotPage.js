@@ -25,16 +25,16 @@ export default function ChatbotPage(props) {
         userFontColor: '#fff',
     };
 
-    const summit = () => {
-        fetch('https://simnectzplatform.com:8080/simnectz_Bank-Credit_card_service-credit_card_rewards/point/redemption', {
-            method: 'POST',
-            body: JSON.stringify({
-                "query": '',
-            })
-        }).then(res => res.text()).then(res => setResponse(strToJson(res)));
-        setCurrent(current + 1)
-    }
-    }
+    // const summit = () => {
+    //     fetch('https://simnectzplatform.com:8080/simnectz_Bank-Credit_card_service-credit_card_rewards/point/redemption', {
+    //         method: 'POST',
+    //         body: JSON.stringify({
+    //             "query": '',
+    //         })
+    //     }).then(res => res.text()).then(res => setResponse(strToJson(res)));
+    //     setCurrent(current + 1)
+    // }
+    // }
 
     return (
         <ThemeProvider theme={theme}>
@@ -52,8 +52,8 @@ export default function ChatbotPage(props) {
                 },
                 {
                     id: '3',
-                    message: '{magic(previousValue)}', //此处需调用接口
-                    trigger: 2,
+                    message: '{previousValue}', //此处需调用接口
+                    trigger: '2',
                 },
             ]}
 
