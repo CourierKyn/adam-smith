@@ -340,6 +340,8 @@ function IndexPage(props) {
                        setCurrent3={props.setCurrent3}/>
             </Container>
             <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
+            <Typography>&#160;</Typography><Typography>&#160;</Typography><Typography>&#160;</Typography>
             <Typography>&#160;</Typography><Typography>&#160;</Typography>
         </Box>
     )
