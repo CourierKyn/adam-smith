@@ -1,15 +1,47 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ChatBot from 'react-simple-chatbot';
-import { ThemeProvider } from 'styled-components';
+import React, {Component} from 'react';
+import ChatBot, {Loading} from 'react-simple-chatbot';
+import {ThemeProvider} from 'styled-components';
 import Box from "@material-ui/core/Box";
 
-function strToJson(str) {
-    return JSON.parse(str);
+class Response extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading: true,
+            result: '',
+            trigger: false,
+        };
+
+        this.triggetNext = this.triggetNext.bind(this);
+    }
+
+    componentWillMount() {
+        const {steps} = this.props;
+        const query = steps.query.value;
+        fetch('http://hsbc.natapp1.cc:5000/', {
+            method: 'POST',
+            body: JSON.stringify({
+                "query": query
+            })
+        }).then(res => res.text()).then(res => this.setState({loading: false, result: JSON.parse(res).answer}));
+    }
+
+    triggetNext() {
+        this.setState({trigger: true}, () => {
+            this.props.triggerNextStep();
+        });
+    }
+
+    render() {
+        const {trigger, loading, result} = this.state;
+        return (
+            <Box>
+                {loading ? <Loading/> : result}
+            </Box>
+        )
+    };
 }
-
-
-
 
 export default function ChatbotPage(props) {
     const theme = {
@@ -25,37 +57,26 @@ export default function ChatbotPage(props) {
         userFontColor: '#fff',
     };
 
-    // const summit = () => {
-    //     fetch('https://simnectzplatform.com:8080/simnectz_Bank-Credit_card_service-credit_card_rewards/point/redemption', {
-    //         method: 'POST',
-    //         body: JSON.stringify({
-    //             "query": '',
-    //         })
-    //     }).then(res => res.text()).then(res => setResponse(strToJson(res)));
-    //     setCurrent(current + 1)
-    // }
-    // }
-
     return (
         <ThemeProvider theme={theme}>
             <ChatBot
-                         steps={[
-                {
-                    id: '1',
-                    message: '请问您想知道什么',
-                    trigger: '2',
-                },
-                {
-                    id: '2',
-                    user: true,
-                    trigger: '3',
-                },
-                {
-                    id: '3',
-                    message: '{previousValue}', //此处需调用接口
-                    trigger: '2',
-                },
-            ]}
+                steps={[
+                    {
+                        id: 'start',
+                        message: '请问您想知道什么',
+                        trigger: 'query',
+                    },
+                    {
+                        id: 'query',
+                        user: true,
+                        trigger: 'response',
+                    },
+                    {
+                        id: 'response',
+                        component: <Response/>,
+                        trigger: 'query',
+                    },
+                ]}
 
             />
         </ThemeProvider>
