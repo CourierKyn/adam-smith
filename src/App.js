@@ -286,10 +286,12 @@ function IndexPage(props) {
                                         Total Balance
                                     </Typography>
                                     <Typography variant="h6" style={{fontWeight: 600}}>
-                                        {props.response.limits.usedLimit}
+                                        {/*{props.response.limits.usedLimit}*/}
+                                        2000
                                     </Typography>
                                     <Typography variant={"body2"} color="textSecondary">
-                                        {props.response.limits.availableLimit}
+                                        {/*{props.response.limits.availableLimit}*/}
+                                        8000
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>

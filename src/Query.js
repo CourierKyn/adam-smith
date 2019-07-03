@@ -50,16 +50,16 @@ export default function Query(props) {
     const [response, setResponse] = React.useState(
         {
             "transDetails": [{
-                "dealnumber": "",
-                "transactiontime": "",
-                "merchantname": "",
-                "merchantnumber": "",
-                "transactionccy": "",
-                "transactionamount": "",
-                "bookingccy": "",
-                "bookingamount": ""
+                "dealnumber": "001",
+                "transactiontime": "2019-07-04",
+                "merchantname": "HSBC",
+                "merchantnumber": "0001",
+                "transactionccy": "USD",
+                "transactionamount": "520",
+                "bookingccy": "USD",
+                "bookingamount": "999"
 
-            }], "msg": "", "code": ""
+            }], "msg": "", "code": "1"
         }
     );
     const [change, setChange] = React.useState(0);
@@ -159,9 +159,9 @@ return  1
                 ?
                 <Box>
                     <Box>
-                    {props.current3 === 0 && (
-                        summit()
-                    )}
+                    {/*{props.current3 === 0 && (*/}
+                    {/*    summit()*/}
+                    {/*)}*/}
                     </Box>
                     <Box style={{'padding-top': 20}}>
                         <Paper>
