@@ -248,7 +248,7 @@ function App() {
                                 <MenuItem button onClick={handleShop}>Rewords Shop</MenuItem>
                                 <MenuItem button onClick={handleLossReport}>Loss Report</MenuItem>
                                 <MenuItem button onClick={handleCancel}>Cancellation</MenuItem>
-                                <MenuItem button onClick={handleChatbot}>Chatbot</MenuItem>
+                                <MenuItem button onClick={handleChatbot}>Customer service</MenuItem>
                             </Menu></Grid></Grid>
                 </Toolbar>
             </AppBar>
