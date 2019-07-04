@@ -244,11 +244,11 @@ function App() {
                             >
                                 <MenuItem button onClick={handleHoming}>Home</MenuItem>
                                 <MenuItem button onClick={handleApplication}>New Card</MenuItem>
-                                <MenuItem button onClick={handleTransfer}>Transfer</MenuItem>
+                                <MenuItem button onClick={handleTransfer}>Consumption</MenuItem>
                                 <MenuItem button onClick={handleShop}>Rewords Shop</MenuItem>
                                 <MenuItem button onClick={handleLossReport}>Loss Report</MenuItem>
                                 <MenuItem button onClick={handleCancel}>Cancellation</MenuItem>
-                                <MenuItem button onClick={handleChatbot}>Chatbot</MenuItem>
+                                <MenuItem button onClick={handleChatbot}>Contact Us</MenuItem>
                             </Menu></Grid></Grid>
                 </Toolbar>
             </AppBar>
@@ -286,12 +286,10 @@ function IndexPage(props) {
                                         Total Balance
                                     </Typography>
                                     <Typography variant="h6" style={{fontWeight: 600}}>
-                                        {/*{props.response.limits.usedLimit}*/}
-                                        2000
+                                        2256.23 HKD
                                     </Typography>
                                     <Typography variant={"body2"} color="textSecondary">
-                                        {/*{props.response.limits.availableLimit}*/}
-                                        8000
+                                        7743.77 HKD
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>

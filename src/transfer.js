@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const steps = ['填写转账单', '转账结果'];
+const steps = ['填写消费单', '消费结果'];
 
 
 
@@ -128,7 +128,7 @@ const [time,setTime] = React.useState('')
         <Container className={classes.paper}>
           <Typography>&#160;</Typography>
           <Typography component="h1" variant="h3" align="center">
-            Transfer
+            Consumption
           </Typography>
           <Typography>&#160;</Typography>
           <Stepper activeStep={activeStep} alternativeLabel  style={{background: '#F3F2F7'}}>
@@ -143,7 +143,7 @@ const [time,setTime] = React.useState('')
               <React.Fragment>
               <Typography>&#160;</Typography>
                 <Typography variant="h5" component='h3' align='center'>
-                  转账成功
+                  消费成功
                 </Typography>
               </React.Fragment>
             ) : (
@@ -205,7 +205,7 @@ const [time,setTime] = React.useState('')
                           className={classes.button}
                           style={{background: '#D4372C', color: 'white'}}
                       >
-                          {activeStep === steps.length ? '确认转账' : '确认转账'}
+                          {activeStep === steps.length ? '确认消费' : '确认消费'}
                       </Button>
                   </div>
               </React.Fragment>

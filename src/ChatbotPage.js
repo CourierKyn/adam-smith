@@ -61,7 +61,7 @@ export default function ChatbotPage(props) {
     };
 
     const style1 = {
-        height : '85vh'
+        height : '81vh'
     };
 
     return (
